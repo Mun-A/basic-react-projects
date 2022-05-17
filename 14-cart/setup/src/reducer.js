@@ -49,8 +49,21 @@ const reducer = (state, action) => {
       return { ...state, loading: true };
     case 'DISPLAY_ITEMS':
       return { ...state, cart: payload, loading: false };
+    case 'TOGGLE_AMOUNT':
+      let modCart = state.cart
+        .map((cartItem) => {
+          if (cartItem.id === payload.id) {
+            if (payload.type === 'inc')
+              return { ...cartItem, amount: cartItem.amount + 1 };
+            if (payload.type === 'dec')
+              return { ...cartItem, amount: cartItem.amount - 1 };
+          }
+          return cartItem;
+        })
+        .filter((cartItem) => cartItem.amount !== 0);
+      return { ...state, cart: modCart };
     default:
-      throw new Error('Unknown type');
+      throw new Error('Unknown action type');
   }
 };
 
