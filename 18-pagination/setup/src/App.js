@@ -16,6 +16,30 @@ function App() {
     setPage(index);
   };
 
+  const prevPage = () => {
+    setPage((oldPage) => {
+      let prevPage = oldPage - 1;
+      
+      if (prevPage < 0) {
+        prevPage = data.length - 1;
+      }
+
+      return prevPage;
+    });
+  };
+
+  const nextPage = () => {
+    setPage((oldPage) => {
+      let nextPage = oldPage + 1;
+
+      if (nextPage > data.length - 1) {
+        nextPage = 0;
+      }
+
+      return nextPage;
+    });
+  };
+
   return (
     <main>
       <div className="section-title">
@@ -24,21 +48,29 @@ function App() {
       </div>
       <section className="followers">
         <div className="container">
-          {data.map((follower) => (
+          {followers.map((follower) => (
             <Follower key={follower.id} {...follower} />
           ))}
         </div>
         {!loading && (
           <div className="btn-container">
+            <button className="prev-btn" onClick={prevPage}>
+              prev
+            </button>
             {data.map((item, index) => (
               <button
                 key={index}
-                className={`${index === page ? 'page-btn active-btn' : 'page-btn'}`}
+                className={`${
+                  index === page ? 'page-btn active-btn' : 'page-btn'
+                }`}
                 onClick={() => handlePage(index)}
               >
                 {index + 1}
               </button>
             ))}
+            <button className="next-btn" onClick={nextPage}>
+              next
+            </button>
           </div>
         )}
       </section>
