@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import Photo from './Photo';
 
-// const clientID = `?client_id=${process.env.REACT_APP_ACCESS_KEY}`
+const clientID = `?client_id=${process.env.REACT_APP_ACCESS_KEY}`;
+
 const mainUrl = `https://api.unsplash.com/photos/`;
 const searchUrl = `https://api.unsplash.com/search/photos/`;
 
@@ -14,7 +15,7 @@ function App() {
     setLoading(true);
 
     let url;
-    url = `${main}?client_id=wObn-8yHj7r0ag5czBNVHE_QtbaTk8dcv6gqXnH90v4`;
+    url = `${main}${clientID}`;
 
     try {
       const response = await fetch(url);
