@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import Photo from './Photo';
 
@@ -10,8 +10,9 @@ const searchUrl = `https://api.unsplash.com/search/photos/`;
 function App() {
   const [loading, setLoading] = useState(false);
   const [photos, setPhotos] = useState([]);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [query, setQuery] = useState('');
+  const mounted = useRef(false);
 
   const fetchImages = async () => {
     setLoading(true);
@@ -49,21 +50,23 @@ function App() {
     fetchImages();
   }, [page]);
 
+  // Passes initial render
   useEffect(() => {
-    const event = window.addEventListener('scroll', () => {
-      if (
-        !loading &&
-        window.innerHeight + window.scrollY >= document.body.scrollHeight - 2
-      ) {
-        setPage((oldPage) => oldPage + 1);
-      }
-    });
-
-    return () => window.removeEventListener('scroll', event);
+    if (!mounted.current) {
+      mounted.current = true;
+      return;
+    }
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!query) return;
+
+    if (page === 1) {
+      fetchImages();
+      return;
+    }
 
     setPage(1);
   };
