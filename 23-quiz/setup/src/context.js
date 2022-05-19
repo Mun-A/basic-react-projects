@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 
 const table = {
   sports: 21,
