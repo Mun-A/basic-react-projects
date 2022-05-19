@@ -22,6 +22,21 @@ const reducer = (state, action) => {
       return { ...state, hits: filteredHits };
     case HANDLE_SEARCH:
       return { ...state, query: payload, page: 0 };
+    case HANDLE_PAGE:
+      if (payload === 'inc') {
+        let nextPage = state.page + 1;
+        if (nextPage > state.nbPages - 1) {
+          nextPage = 0;
+        }
+        return { ...state, page: nextPage };
+      }
+      if (payload === 'dec') {
+        let prevPage = state.page - 1;
+        if (prevPage < 0) {
+          prevPage = state.nbPages - 1;
+        }
+        return { ...state, page: prevPage };
+      }
     default:
       throw new Error(`no matching "${type}" action type`);
   }
